@@ -1,0 +1,96 @@
+/* General Styling (same as before) */
+body {
+  font-family: 'Arial', sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  margin: 0;
+  background-color: #282c34;
+  color: white;
+}
+
+h1 {
+  margin-bottom: 20px;
+  font-size: 2rem;
+  color: #61dafb;
+}
+
+footer {
+  margin-top: 20px;
+  font-size: 0.9rem;
+  color: #aaa;
+}
+
+#game {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#board {
+  display: grid;
+  grid-template-columns: repeat(6, 50px);
+  grid-template-rows: repeat(4, 50px);
+  gap: 3px;
+  margin-bottom: 20px;
+  background-color: #444;
+  padding: 5px;
+  border-radius: 8px;
+}
+
+#board div {
+  width: 50px;
+  height: 50px;
+  background-color: #ccc;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.1s;
+}
+
+#board div[data-occupied="true"] {
+  background-color: #777;
+  pointer-events: none;
+}
+
+#controls {
+  text-align: center;
+}
+
+.btn {
+  background-color: #61dafb;
+  color: #000;
+  border: none;
+  padding: 10px 20px;
+  margin: 5px;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.1s;
+}
+
+.btn:hover {
+  background-color: #4caf50;
+  color: white;
+}
+
+/* Cursor Hover Piece */
+#hover-piece {
+  position: absolute;
+  pointer-events: none; /* Prevent interference with interactions */
+  visibility: hidden; /* Hidden initially until a piece is drawn */
+  display: grid;
+  gap: 3px;
+  z-index: 1000; /* Ensure it's always on top of other elements */
+}
+
+#hover-piece div {
+  width: 50px;
+  height: 50px;
+  background-color: transparent; /* Default color for "empty" cells */
+  border-radius: 4px;
+  transition: background-color 0.1s ease;
+}
