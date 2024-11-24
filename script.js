@@ -16,15 +16,62 @@ for (let i = 0; i < 24; i++) {
     board.appendChild(cell);
 }
 
+// Function to lighten a color (e.g., for subtle highlighting)
+function lightenColor(color, percent) {
+    const colorHex = color.replace('#', '');
+    const r = parseInt(colorHex.substring(0, 2), 16);
+    const g = parseInt(colorHex.substring(2, 4), 16);
+    const b = parseInt(colorHex.substring(4, 6), 16);
+
+    const newR = Math.min(255, Math.floor(r + (255 - r) * percent));
+    const newG = Math.min(255, Math.floor(g + (255 - g) * percent));
+    const newB = Math.min(255, Math.floor(b + (255 - b) * percent));
+
+    return `#${newR.toString(16).padStart(2, '0')}${newG.toString(16).padStart(2, '0')}${newB.toString(16).padStart(2, '0')}`;
+}
+
+// Function to highlight the edge of the grid temporarily based on the drawn piece's color
+function highlightGrid() {
+    // Get the color of the current drawn piece
+    const pieceColor = currentPiece.color;
+
+    // Set the border color and box-shadow based on the piece's color
+    board.classList.add("highlighted");
+    board.style.borderColor = pieceColor;  // Set the border color to the piece's color
+    board.style.boxShadow = `0 0 10px 2px ${pieceColor}`;  // Set the glow to the piece's color
+
+    // Remove the highlight after 500ms (duration of the highlight effect)
+    setTimeout(() => {
+        board.classList.remove("highlighted");
+        board.style.borderColor = "";  // Reset to original state
+        board.style.boxShadow = "";  // Reset to original state
+    }, 100); // Duration of the highlight effect
+}
+
+// Draw a random piece
+function drawPiece() {
+    tries++;
+    triesSpan.textContent = tries;
+    const randomPiece = pieces[Math.floor(Math.random() * pieces.length)];
+    currentPiece = randomPiece;
+    renderHoverPiece(randomPiece);
+    
+    // Highlight the edge of the grid when a new piece is drawn
+    highlightGridEdge();
+}
+
+
+
 // Piece shapes and colors
 const pieces = [
-  { shape: [[1, 1], [1, 1]], color: "#66FFFF" }, // Box
-  { shape: [[1, 1], [0, 1]], color: "yellow" }, // Inverted L
-  { shape: [[1, 1, 0], [0, 1, 1]], color: "red" }, // Z
-  { shape: [[1]], color: "orange" }, // Dot
-  { shape: [[1], [1], [1]], color: "darkblue" }, // Vertical
-  { shape: [[1, 0], [1, 1]], color: "green" }, // L
-];
+    { shape: [[1, 1], [1, 1]], color: "#66FFFF" }, // Box (Light Cyan)
+    { shape: [[1, 1], [0, 1]], color: "#FFFF00" }, // Inverted L (Yellow)
+    { shape: [[1, 1, 0], [0, 1, 1]], color: "#FF0000" }, // Z (Red)
+    { shape: [[1]], color: "#FFA500" }, // Dot (Orange)
+    { shape: [[1], [1], [1]], color: "#00008B" }, // Vertical (Dark Blue)
+    { shape: [[1, 0], [1, 1]], color: "#008000" }, // L (Green)
+    ];
+
 
 // Draw a random piece
 document.getElementById("draw-piece").addEventListener("click", () => drawPiece());
@@ -71,6 +118,7 @@ function drawPiece() {
     const randomPiece = pieces[Math.floor(Math.random() * pieces.length)];
     currentPiece = randomPiece;
     renderHoverPiece(randomPiece);
+    highlightGrid();
 }
 
 // Discard the current piece
