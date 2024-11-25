@@ -1,5 +1,6 @@
 const board = document.getElementById("board");
 const hoverPiece = document.createElement("div");
+const toast = document.getElementById("toast");
 hoverPiece.id = "hover-piece";
 document.body.appendChild(hoverPiece);
 
@@ -15,7 +16,6 @@ for (let i = 0; i < 24; i++) {
     cell.addEventListener("click", () => placePiece(cell));
     board.appendChild(cell);
 }
-
 
 // Function to highlight the edge of the grid temporarily based on the drawn piece's color
 function highlightGrid() {
@@ -36,7 +36,6 @@ function highlightGrid() {
 }
 
 function showToast(message, duration) {
-    const toast = document.getElementById("toast");
     toast.textContent = message;
     toast.style.display = "block";
 
@@ -45,7 +44,6 @@ function showToast(message, duration) {
         toast.style.display = "none";
     }, duration);
 }
-
 
 // Draw a random piece
 function drawPiece() {
@@ -130,7 +128,6 @@ function discardPiece() {
 function renderHoverPiece(piece) {
     hoverPiece.innerHTML = ""; // Clear previous piece content
     hoverPiece.style.gridTemplateColumns = `repeat(${piece.shape[0].length}, 50px)`;
-    hoverPiece.style.visibility = "visible"; // Show the hover piece
 
     piece.shape.forEach(row => {
         row.forEach(cell => {
@@ -139,6 +136,7 @@ function renderHoverPiece(piece) {
             hoverPiece.appendChild(block);
         });
     });
+    hoverPiece.style.visibility = "visible"; // Show the hover piece
 }
 
 // Place the current piece on the board
@@ -168,7 +166,7 @@ function placePiece(cell) {
         // Check if the board is full
         if (isBoardFull()) {
             // Show the toast
-            showToast(`You have filed the grid in ${tries} tries`, 2000); // Display for 3 seconds
+            showToast(`You have filed the grid in ${tries} tries`, 2000);
             resetGame();
         }
     }
