@@ -16,19 +16,6 @@ for (let i = 0; i < 24; i++) {
     board.appendChild(cell);
 }
 
-// Function to lighten a color (e.g., for subtle highlighting)
-function lightenColor(color, percent) {
-    const colorHex = color.replace('#', '');
-    const r = parseInt(colorHex.substring(0, 2), 16);
-    const g = parseInt(colorHex.substring(2, 4), 16);
-    const b = parseInt(colorHex.substring(4, 6), 16);
-
-    const newR = Math.min(255, Math.floor(r + (255 - r) * percent));
-    const newG = Math.min(255, Math.floor(g + (255 - g) * percent));
-    const newB = Math.min(255, Math.floor(b + (255 - b) * percent));
-
-    return `#${newR.toString(16).padStart(2, '0')}${newG.toString(16).padStart(2, '0')}${newB.toString(16).padStart(2, '0')}`;
-}
 
 // Function to highlight the edge of the grid temporarily based on the drawn piece's color
 function highlightGrid() {
@@ -47,6 +34,18 @@ function highlightGrid() {
         board.style.boxShadow = "";  // Reset to original state
     }, 100); // Duration of the highlight effect
 }
+
+function showToast(message, duration) {
+    const toast = document.getElementById("toast");
+    toast.textContent = message;
+    toast.style.display = "block";
+
+    // Hide the toast after the duration
+    setTimeout(() => {
+        toast.style.display = "none";
+    }, duration);
+}
+
 
 // Draw a random piece
 function drawPiece() {
@@ -168,7 +167,8 @@ function placePiece(cell) {
 
         // Check if the board is full
         if (isBoardFull()) {
-            alert("Congratulations! You filled the board! Starting a new game.");
+            // Show the toast
+            showToast(`You have filed the grid in ${tries} tries`, 2000); // Display for 3 seconds
             resetGame();
         }
     }
